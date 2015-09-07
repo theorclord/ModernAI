@@ -16,7 +16,7 @@ public class GhostNearBy extends Leaf {
 		}
 		else 
 		{
-			MIN_DISTANCE = 20;
+			MIN_DISTANCE = 15;
 		}
 		
 		// TODO Auto-generated constructor stub
@@ -31,7 +31,6 @@ public class GhostNearBy extends Leaf {
 		game.getGhostCurrentNodeIndex(GHOST.SUE);
 		game.getPacmanCurrentNodeIndex();
 		for(GHOST ghost : GHOST.values()){
-			//if(game.getGhostEdibleTime(ghost)==0 && game.getGhostLairTime(ghost)==0)
 			if(game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),game.getGhostCurrentNodeIndex(ghost))<MIN_DISTANCE)
 			{
 				super.SetVariable("ghost", ghost);

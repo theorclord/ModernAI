@@ -16,6 +16,7 @@ public class MoveToNearestPill extends Leaf {
 
 	@Override
 	public Status run() {
+		System.out.println("Nearest pill");
 		Game game = (Game)super.data.get("game");
 		int currentNodeIndex=game.getPacmanCurrentNodeIndex();
 		

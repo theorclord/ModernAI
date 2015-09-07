@@ -11,15 +11,10 @@ import pacman.game.Game;
  */
 public class SimplePacman extends Controller<MOVE>
 {	
-	
-	/* (non-Javadoc)
-	 * @see pacman.controllers.Controller#getMove(pacman.game.Game, long)
-	 */
-	public MOVE getMove(Game game,long timeDue)
-	{	
-		BehaviorTree tree = new BehaviorTree();
-		tree.data.put("game", game);
-		tree.data.put("timeDue", timeDue);
+	private BehaviorTree tree;
+	public SimplePacman(){
+		tree = new BehaviorTree();
+		
 		Sequence main = new Sequence();
 		tree.SetRootNode(main);
 		Inverter inv = new Inverter();
@@ -29,6 +24,15 @@ public class SimplePacman extends Controller<MOVE>
 		tree.AddNode(seqGhost, new GhostNearBy(tree.data));
 		tree.AddNode(seqGhost, new RunFromGhost(tree.data));
 		tree.AddNode(main, new MoveToNearestPill(tree.data));
+	}
+	/* (non-Javadoc)
+	 * @see pacman.controllers.Controller#getMove(pacman.game.Game, long)
+	 */
+	public MOVE getMove(Game game,long timeDue)
+	{	
+		System.out.println("Move called");
+		tree.data.put("game", game);
+		tree.data.put("timeDue", timeDue);
 		tree.Run();
 		return (MOVE) tree.data.get("result");
 	}
