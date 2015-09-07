@@ -26,7 +26,8 @@ public class SimplePacman extends Controller<MOVE>
 		tree.AddNode(main, inv);
 		Sequence seqGhost = new Sequence();
 		tree.AddNode(inv, seqGhost);
-		//add ghost nearby add run from ghost
+		tree.AddNode(seqGhost, new GhostNearBy(tree.data));
+		tree.AddNode(seqGhost, new RunFromGhost(tree.data));
 		tree.AddNode(main, new MoveToNearestPill(tree.data));
 		tree.Run();
 		return (MOVE) tree.data.get("result");
