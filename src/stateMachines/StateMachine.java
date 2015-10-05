@@ -1,6 +1,5 @@
 package stateMachines;
-
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
@@ -8,13 +7,21 @@ import pacman.game.Game;
 public class StateMachine {
 
 	public int MinDist;
-	public int DistFromNonEidable;
+	public int DistFromNonEdable;
 	public int DistToPowerPill;
 	private State currentState;
-	public StateMachine(int MinDist, int DistFromNonEidable, int DistToPowerPill) {
-		this.MinDist = MinDist;
-		this.DistFromNonEidable = DistFromNonEidable;
+	public HashMap<String,Object> dataStruc;
+	public int DistToEdable;
+	public StateMachine( int DistFromNonEdable, int DistToPowerPill,
+			int DistToEdable) {
+		dataStruc = new HashMap<String,Object>();
+		this.DistFromNonEdable = DistFromNonEdable;
 		this.DistToPowerPill = DistToPowerPill;
+		this.DistToEdable = DistToEdable;
+		dataStruc.put("moveNearestPill", new MoveToNearestPill(this));
+		dataStruc.put("moveNearestPowerPill", new MoveToNearestPowerPill(this));
+		dataStruc.put("runFromGhost", new RunFromGhost(this));
+		dataStruc.put("eatGhost", new EatGhost(this));
 	}
 	
 	public MOVE run(Game game, long timeDue){

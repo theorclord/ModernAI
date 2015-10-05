@@ -16,11 +16,6 @@ public class NearestGhost extends Leaf {
 	@Override
 	public Status run() {
 		Game game = (Game) super.data.get("game");
-		game.getGhostCurrentNodeIndex(GHOST.BLINKY);
-		game.getGhostCurrentNodeIndex(GHOST.PINKY);
-		game.getGhostCurrentNodeIndex(GHOST.INKY);
-		game.getGhostCurrentNodeIndex(GHOST.SUE);
-		game.getPacmanCurrentNodeIndex();
 		int tempMin = -1;
 		for(GHOST ghost : GHOST.values()){
 			if(game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),game.getGhostCurrentNodeIndex(ghost)) < tempMin || tempMin == -1){

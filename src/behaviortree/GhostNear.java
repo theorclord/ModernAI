@@ -25,7 +25,6 @@ public class GhostNear extends Leaf {
 	@Override
 	public Status run() {
 		Game game = (Game) super.data.get("game");
-		game.getPacmanCurrentNodeIndex();
 		GHOST ghost = (GHOST) super.data.get("ghost");
 		if(game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),game.getGhostCurrentNodeIndex(ghost))<MIN_DISTANCE)
 		{

@@ -195,7 +195,7 @@ public class Executor
 	        if(visual)
 	        	gv.repaint();
 		}
-		
+		System.out.println(game.getScore());
 		pacManController.terminate();
 		ghostController.terminate();
 	}
