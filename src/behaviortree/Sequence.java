@@ -7,19 +7,17 @@ public class Sequence extends Composite {
 
 	@Override
 	public Status run() {
-		System.out.println(currentNode);
 		Status stat = super.nodes.get(currentNode).run();
 		if (stat == Status.Failed) {
+			currentNode = 0;
 			return Status.Failed;
 		} else if (stat == Status.Running) {
 			return Status.Running;
 		} else {
-			System.out.println("inc");
 			currentNode++;
 			if (super.nodes.size() == currentNode) {
-				System.out.println("hit");
 				currentNode = 0;
-				return Status.Succes;
+				return Status.Success;
 			}
 			return Status.Running;
 		}

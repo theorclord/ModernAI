@@ -16,9 +16,10 @@ public class RunFromGhost extends Leaf {
 	@Override
 	public Status run() {
 		Game game = (Game)super.data.get("game");
+		System.out.println("Moving From Ghost");
 		super.SetVariable("result", game.getNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(),
 				game.getGhostCurrentNodeIndex((GHOST) super.data.get("ghost")), DM.PATH));
-		return Status.Succes;
+		return Status.Success;
 	}
 
 }

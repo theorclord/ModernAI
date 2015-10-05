@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class BehaviorTree {
 	public enum Status {
-		Failed, Succes, Running
+		Failed, Success, Running
 	}
 
 	private Node root;
@@ -36,7 +36,10 @@ public class BehaviorTree {
 	}
 
 	public void Run() {
-		root.run();
+		if(root.run() == Status.Running){
+			Run();
+		}
+		//root.run();
 		// loop through nodes, execute leafs
 	}
 

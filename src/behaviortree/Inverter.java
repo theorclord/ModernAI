@@ -8,8 +8,8 @@ public class Inverter extends Decorator {
 	public Status run() {
 		Status stat = child.run();
 		if(stat == Status.Failed){
-			return Status.Succes;
-		} else if(stat == Status.Succes){
+			return Status.Success;
+		} else if(stat == Status.Success){
 			return Status.Failed;
 		} else {
 			return Status.Running;

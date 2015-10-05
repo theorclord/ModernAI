@@ -6,18 +6,9 @@ import behaviortree.BehaviorTree.Status;
 import pacman.game.Game;
 import pacman.game.Constants.GHOST;
 
-public class GhostNearBy extends Leaf {
-
-	private int MIN_DISTANCE;
-	public GhostNearBy(HashMap<String, Object> dataContext) {
+public class NearestGhost extends Leaf {
+	public NearestGhost(HashMap<String, Object> dataContext) {
 		super(dataContext);
-		if(super.data.get("ghostDist") != null){
-			MIN_DISTANCE = (int) super.data.get("ghostDist");
-		}
-		else 
-		{
-			MIN_DISTANCE = 10;
-		}
 		
 		// TODO Auto-generated constructor stub
 	}
@@ -30,16 +21,16 @@ public class GhostNearBy extends Leaf {
 		game.getGhostCurrentNodeIndex(GHOST.INKY);
 		game.getGhostCurrentNodeIndex(GHOST.SUE);
 		game.getPacmanCurrentNodeIndex();
+		int tempMin = -1;
 		for(GHOST ghost : GHOST.values()){
-			if(game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),game.getGhostCurrentNodeIndex(ghost))<MIN_DISTANCE)
-			{
+			if(game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),game.getGhostCurrentNodeIndex(ghost)) < tempMin || tempMin == -1){
+				tempMin = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),game.getGhostCurrentNodeIndex(ghost));
 				super.SetVariable("ghost", ghost);
-				System.out.println("Run From Ghost");
-				return Status.Success;
 			}
 			//return game.getNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(),game.getGhostCurrentNodeIndex(ghost),DM.PATH);
 		}
-		return Status.Failed;
+		System.out.println("NearestGhost");
+		return Status.Success;
 	}
 
 }

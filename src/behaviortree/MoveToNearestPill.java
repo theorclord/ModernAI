@@ -36,7 +36,7 @@ public class MoveToNearestPill extends Leaf {
 			targetNodeIndices[activePills.length+i]=activePowerPills[i];
 		MOVE result = game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),game.getClosestNodeIndexFromNodeIndex(currentNodeIndex,targetNodeIndices,DM.PATH),DM.PATH);
 		super.data.put("result", result);
-		return Status.Succes;
+		return Status.Success;
 	}
 
 }
