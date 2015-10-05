@@ -5,5 +5,5 @@ import pacman.game.Game;
 
 public abstract class State {
 	public abstract MOVE run(Game game, long timeDue);
-	
+	public abstract State changeState(Game game, long timeDue);
 }
