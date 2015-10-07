@@ -11,10 +11,19 @@ public class PacmanStateMachine extends Controller<MOVE>
 	private StateMachine mach;
 	public PacmanStateMachine(){
 		//parameters for EA
-		int distFromNonEidable = 10;
-		int distToPowerPill = 20;
-		int distToEdable = 10;
-		mach = new StateMachine( distFromNonEidable, distToPowerPill, distToEdable);
+		int distFromNonEdable = 42;
+		int distToPowerPill = 50;
+		int distToEdable = 42;
+		mach = new StateMachine( distFromNonEdable, distToPowerPill, distToEdable);
+		
+		mach.SetCurrentState((State) mach.dataStruc.get("moveNearestPill"));
+	}
+	public PacmanStateMachine(int[] params){
+		//parameters for EA
+		int distFromNonEdable = params[0];
+		int distToPowerPill = params[1];
+		int distToEdable = params[2];	
+		mach = new StateMachine( distFromNonEdable, distToPowerPill, distToEdable);
 		
 		mach.SetCurrentState((State) mach.dataStruc.get("moveNearestPill"));
 	}

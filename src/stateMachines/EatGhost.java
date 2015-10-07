@@ -19,30 +19,31 @@ public class EatGhost extends State {
 
 	@Override
 	public State changeState(Game game, long timeDue) {
+		//Check to eat ghost
 		int tempGhostDist = -1;
 		GHOST tempGhost = null;
 		if(game.isGhostEdible((GHOST)mach.dataStruc.get("ghost"))){
 			tempGhostDist = game.getGhostCurrentNodeIndex((GHOST)mach.dataStruc.get("ghost"));
 			tempGhost = (GHOST)mach.dataStruc.get("ghost");
 		}
-		
+		//Check if another ghost is closer
 		for(GHOST ghost : GHOST.values()){
 			if(!game.isGhostEdible(ghost)){
 				continue;
 			}
 			int tempPathLength = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(ghost)); 
-			if(tempPathLength < tempGhostDist || tempGhostDist == -1){
+			if(tempPathLength < tempGhostDist){
 				tempGhostDist = tempPathLength;
 				tempGhost = ghost;
 			}
 		}
-		if(tempGhostDist != -1 && tempGhostDist < mach.DistToEdable){
+		if(tempGhostDist < mach.DistToEdable && tempGhost != null){
 			mach.dataStruc.put("ghost", tempGhost);
 			return null;
-		} else {
-			System.out.println("(EatGhost) Try eat pill");
-			return (State) mach.dataStruc.get("moveNearestPill");
 		}
+		// Eat nearest pill
+		//System.out.println("(EatGhost) Try eat pill");
+		return (State) mach.dataStruc.get("moveNearestPill");
 	}
 
 }

@@ -14,8 +14,6 @@ public class MoveToNearestPill extends State {
 
 	@Override
 	public MOVE run(Game game, long timeDue) {
-		System.out.println("Move To pill");
-		
 		int currentNodeIndex=game.getPacmanCurrentNodeIndex();
 		
 		//get all active pills
@@ -36,22 +34,26 @@ public class MoveToNearestPill extends State {
 	}
 	
 	public State changeState(Game game, long timeDue){
-		int pacManPos = game.getPacmanCurrentNodeIndex();
+		int pacmanPos = game.getPacmanCurrentNodeIndex();
+		//Check for non edable ghost
 		for(GHOST ghost : GHOST.values()){
-			if(game.getGhostLairTime(ghost) > 0){
+			if(game.getGhostLairTime(ghost) > 0 || game.isGhostEdible(ghost)){
 				continue;
 			}
-			if(game.isGhostEdible(ghost) && 
-					game.getShortestPathDistance(pacManPos, game.getGhostCurrentNodeIndex(ghost)) < mach.DistToEdable){
-				System.out.println("(MoveToNearestPill) Try eat ghost");
-				mach.dataStruc.put("ghost", ghost);
-				return (State) mach.dataStruc.get("eatGhost");
-			}
-			if(game.getShortestPathDistance(pacManPos,game.getGhostCurrentNodeIndex(ghost))<mach.DistFromNonEdable && game.getGhostLairTime(ghost)<= 0)
+			if(game.getShortestPathDistance(pacmanPos,game.getGhostCurrentNodeIndex(ghost))<mach.DistFromNonEdable)
 			{
-				System.out.println("(MoveToNearestPill) Try run from Ghost");
+				//System.out.println("(MoveToNearestPill) Try run from Ghost");
 				mach.dataStruc.put("ghost", ghost);
 				return (State)mach.dataStruc.get("runFromGhost");
+			}
+		}
+		//Check for edable ghost
+		for(GHOST ghost : GHOST.values()){
+			if(game.isGhostEdible(ghost) && 
+					game.getShortestPathDistance(pacmanPos, game.getGhostCurrentNodeIndex(ghost)) < mach.DistToEdable){
+				//System.out.println("(MoveToNearestPill) Try eat ghost");
+				mach.dataStruc.put("ghost", ghost);
+				return (State) mach.dataStruc.get("eatGhost");
 			}
 		}
 		return null;

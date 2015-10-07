@@ -14,43 +14,41 @@ public class RunFromGhost extends State {
 
 	@Override
 	public MOVE run(Game game, long timeDue) {
-		System.out.println("Run from ghost");
 		return game.getNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(),
 				game.getGhostCurrentNodeIndex((GHOST) mach.dataStruc.get("ghost")),DM.PATH);
 	}
 	
 	public State changeState(Game game, long timeDue){
-		int pacManPos = game.getPacmanCurrentNodeIndex();
+		int pacmanPos = game.getPacmanCurrentNodeIndex();
+		//Check for power pill
 		int closestPowerPill = 0;
 		int closestDistPowerPill = -1;
 		if(game.getNumberOfActivePowerPills() >0){
 			for( int i : game.getActivePowerPillsIndices()){
-				int temp = game.getShortestPathDistance(pacManPos, i);
+				int temp = game.getShortestPathDistance(pacmanPos, i);
 				if( closestDistPowerPill > temp || closestDistPowerPill == -1){
 					closestPowerPill = i;
 					closestDistPowerPill = temp;
 				}
 			}
 		}
-		if(game.getShortestPathDistance(pacManPos, closestPowerPill) < mach.DistToPowerPill){
-			System.out.println("(RunFromGhost)Try power pill");
+		if(game.getNumberOfActivePowerPills()>0 && game.getShortestPathDistance(pacmanPos, closestPowerPill) < mach.DistToPowerPill){
+			//System.out.println("(RunFromGhost)Try power pill");
 			return (State)mach.dataStruc.get("moveNearestPowerPill");
 		}
-		int tempMin = -1;
+		//Check for ghost distance
+		
 		for(GHOST ghost : GHOST.values()){
-			if(game.getGhostLairTime(ghost) > 0 || game.getGhostEdibleTime(ghost)>0){
+			if(game.getGhostLairTime(ghost) > 0 || game.isGhostEdible(ghost)){
 				continue;
 			}
-			if(game.getShortestPathDistance(pacManPos,game.getGhostCurrentNodeIndex(ghost)) < tempMin || tempMin == -1){
-				tempMin = game.getShortestPathDistance(pacManPos,game.getGhostCurrentNodeIndex(ghost));
+			if(game.getShortestPathDistance(pacmanPos,game.getGhostCurrentNodeIndex(ghost)) < mach.DistFromNonEdable){
+				mach.dataStruc.put("ghost", ghost);
+				return null;
 			}
-		}
-		if(tempMin > mach.DistFromNonEdable || tempMin == -1)
-		{
-			System.out.println("(RunFromGhost) Try nearest pill");
-			return (State)mach.dataStruc.get("moveNearestPill");
-		}
-		return null;
+		}		
+		//System.out.println("(RunFromGhost) Try nearest pill");
+		return (State)mach.dataStruc.get("moveNearestPill");
 	}
 
 }
