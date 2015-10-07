@@ -1,7 +1,11 @@
 package stateMachineEA;
 
 import java.util.Comparator;
-
+/**
+ * Comparator for comparing genes
+ * @author Mikkel Stolborg
+ *
+ */
 public class GeneComparator implements Comparator<Gene> {
 
 	@Override

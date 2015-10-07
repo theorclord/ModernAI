@@ -5,6 +5,11 @@ import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
+/**
+ * State responsible for moving to nearest pill
+ * @author Mikkel Stolborg
+ *
+ */
 public class MoveToNearestPill extends State {
 
 	private StateMachine mach;
@@ -12,6 +17,9 @@ public class MoveToNearestPill extends State {
 		this.mach = mach;
 	}
 
+	/**
+	 * Moves toward nearest pill
+	 */
 	@Override
 	public MOVE run(Game game, long timeDue) {
 		int currentNodeIndex=game.getPacmanCurrentNodeIndex();
@@ -30,12 +38,18 @@ public class MoveToNearestPill extends State {
 		
 		for(int i=0;i<activePowerPills.length;i++)
 			targetNodeIndices[activePills.length+i]=activePowerPills[i];
-		return game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),game.getClosestNodeIndexFromNodeIndex(currentNodeIndex,targetNodeIndices,DM.PATH),DM.PATH);
+		return game.getNextMoveTowardsTarget(currentNodeIndex,game.getClosestNodeIndexFromNodeIndex(currentNodeIndex,targetNodeIndices,DM.PATH),DM.PATH);
 	}
 	
+	/**
+	 * Changes the state.
+	 * Checks if there is non edible ghost nearby, if true try to run
+	 * Checks if there is edible ghost nearby, if true try to eat.
+	 * @return returns change state. Returns null if it remains in this state
+	 */
 	public State changeState(Game game, long timeDue){
 		int pacmanPos = game.getPacmanCurrentNodeIndex();
-		//Check for non edable ghost
+		//Check for non edible ghost
 		for(GHOST ghost : GHOST.values()){
 			if(game.getGhostLairTime(ghost) > 0 || game.isGhostEdible(ghost)){
 				continue;
@@ -47,7 +61,7 @@ public class MoveToNearestPill extends State {
 				return (State)mach.dataStruc.get("runFromGhost");
 			}
 		}
-		//Check for edable ghost
+		//Check for edible ghost
 		for(GHOST ghost : GHOST.values()){
 			if(game.isGhostEdible(ghost) && 
 					game.getShortestPathDistance(pacmanPos, game.getGhostCurrentNodeIndex(ghost)) < mach.DistToEdable){

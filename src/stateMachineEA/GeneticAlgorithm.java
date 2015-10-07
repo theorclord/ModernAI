@@ -12,23 +12,24 @@ import java.util.ArrayList;     // arrayLists are more versatile than arrays
 
 /**
  * Genetic Algorithm class.
+ * Modified version of lab code
  * The goal of this GA is to maximize the value of the pacman score.
+ * @author Mikkel Stolborg
  */
 
 public class GeneticAlgorithm {
     // --- constants
-    static int CHROMOSOME_SIZE=3;
-    static int POPULATION_SIZE=40;
-    static int EVALUTION_TRIALS = 10;
-    static int GENERATION_SIZE = 100;
+    public static int CHROMOSOME_SIZE=3;
+    public static int POPULATION_SIZE=40;
+    public static int EVALUTION_TRIALS = 10;
+    public static int GENERATION_SIZE = 100;
 
     // --- variables:
 
     /**
-     * The population contains an ArrayList of genes (the choice of arrayList over
-     * a simple array is due to extra functionalities of the arrayList, such as sorting)
+     * The population contains an ArrayList of genes
      */
-    ArrayList<Gene> mPopulation;
+    private ArrayList<Gene> mPopulation;
 
     // --- functions:
 
@@ -37,7 +38,6 @@ public class GeneticAlgorithm {
      * @param size: The size of the population is passed as an argument from the main class
      */
     public GeneticAlgorithm(int size){
-        // initialize the arraylist and each gene's initial weights HERE
         mPopulation = new ArrayList<Gene>();
         for(int i = 0; i < size; i++){
             Gene entry = new Gene();
@@ -57,13 +57,11 @@ public class GeneticAlgorithm {
         }
     }
     /**
-     * With each gene's fitness as a guide, chooses which genes should mate and produce offspring.
-     * The offspring are added to the population, replacing the previous generation's Genes either
-     * partially or completely. The population size, however, should always remain the same.
-     * If you want to use mutation, this function is where any mutation chances are rolled and mutation takes place.
+     * Produces the next generation
+     * Half of the current population is removed. The remaining genes are used to create
+     * new genes. All of the new genes are slightly mutated.
      */
     public void produceNextGeneration(){
-        // use one of the offspring techniques suggested in class (also applying any mutations) HERE
     	Collections.sort(mPopulation,Collections.reverseOrder(new GeneComparator()));
     	while(mPopulation.size()>POPULATION_SIZE/2){
     		mPopulation.remove(mPopulation.size()-1);

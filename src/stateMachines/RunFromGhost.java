@@ -5,6 +5,11 @@ import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
+/**
+ * State responsible for running from ghost
+ * @author Mikkel Stolborg
+ *
+ */
 public class RunFromGhost extends State {
 
 	private StateMachine mach;
@@ -12,12 +17,21 @@ public class RunFromGhost extends State {
 		this.mach = mach;
 	}
 
+	/**
+	 * runs from current ghost
+	 */
 	@Override
 	public MOVE run(Game game, long timeDue) {
 		return game.getNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(),
 				game.getGhostCurrentNodeIndex((GHOST) mach.dataStruc.get("ghost")),DM.PATH);
 	}
-	
+	/**
+	 * Changes the state.
+	 * Checks if there is active power pills nearby, if true go eat.
+	 * Checks if there still is a ghost close, if true stay in state
+	 * Defaults to eat pill state
+	 * @return returns change state. Returns null if it remains in this state
+	 */
 	public State changeState(Game game, long timeDue){
 		int pacmanPos = game.getPacmanCurrentNodeIndex();
 		//Check for power pill

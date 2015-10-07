@@ -4,19 +4,34 @@ import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
-
+/**
+ * State responsible for moving to nearest power pill
+ * @author Mikkel Stolborg
+ *
+ */
 public class MoveToNearestPowerPill extends State {
 
 	private StateMachine mach;
 	public MoveToNearestPowerPill(StateMachine mach){
 		this.mach = mach;
 	}
+	/**
+	 * Moves towards nearest power pill
+	 */
 	@Override
 	public MOVE run(Game game, long timeDue) {
 		int currentNodeIndex=game.getPacmanCurrentNodeIndex();
 		return game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),game.getClosestNodeIndexFromNodeIndex(currentNodeIndex,game.getActivePowerPillsIndices(),DM.PATH),DM.PATH);
 	}
 
+	/**
+	 * Changes the state.
+	 * Checks if there is edible ghost nearby, if true try to eat.
+	 * Checks if there is remaining power pills, if true stay in state
+	 * Checks if there is non edible ghost nearby, if true try to run.
+	 * Else return to eat pills
+	 * @return returns change state. Returns null if it remains in this state
+	 */
 	@Override
 	public State changeState(Game game, long timeDue) {
 		int pacmanPos = game.getPacmanCurrentNodeIndex();

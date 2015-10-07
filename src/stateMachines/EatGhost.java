@@ -5,19 +5,31 @@ import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
+/**
+ * State responsible for eating ghost
+ * @author Mikkel Stolborg
+ *
+ */
 public class EatGhost extends State {
 
 	private StateMachine mach;
 	public EatGhost(StateMachine mach){
 		this.mach = mach;
 	}
-	@Override
+	/**
+	 * Moves toward the saved ghost
+	 */
 	public MOVE run(Game game, long timeDue) {
 		return game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), 
 				game.getGhostCurrentNodeIndex((GHOST)mach.dataStruc.get("ghost")), DM.PATH);
 	}
 
-	@Override
+	/**
+	 * Changes the state.
+	 * Checks if the current ghost is closest and edible.
+	 * Changes state to eat nearest pill if no ghost matches requirement
+	 * @return returns change state. Returns null if it remains in this state
+	 */
 	public State changeState(Game game, long timeDue) {
 		//Check to eat ghost
 		int tempGhostDist = -1;

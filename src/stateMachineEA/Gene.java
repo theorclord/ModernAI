@@ -2,6 +2,11 @@ package stateMachineEA;
 
 import java.util.Random;
 
+/**
+ * Modified gene from lab code
+ * @author Mikkel Stolborg
+ *
+ */
 public class Gene {
     // --- variables:
 
@@ -16,7 +21,7 @@ public class Gene {
     protected float mFitness;
     
     /**
-     * The chromosome contains the values the ai uses for the switching between the states
+     * The chromosome contains the values the AI uses for the switching between the states
      */
     protected int mChromosome[];
 
@@ -35,6 +40,7 @@ public class Gene {
 
     /**
      * Randomizes the numbers on the mChromosome array to values between 1 and 100
+     * The chosen max value is based on observation
      */
     public void randomizeChromosome(){
     	for(int i = 0; i< mChromosome.length; i++){
@@ -43,14 +49,10 @@ public class Gene {
     }
 
     /**
-     * Creates a number of offspring by combining (using crossover) the current
-     * Gene's chromosome with another Gene's chromosome.
-     * Usually two parents will produce an equal amount of offpsring, although
-     * in other reproduction strategies the number of offspring produced depends
-     * on the fitness of the parents.
-     * @param other: the other parent we want to create offpsring from
-     * @return Array of Gene offspring (default length of array is 2).
-     * These offspring will need to be added to the next generation.
+     * Creates offspring from two parents. 
+     * For simplicity only one offspring is produced with values from parents.
+     * The chose parent, from which the offspring gets its information,
+     * is chosen at random.
      */
     public Gene[] reproduce(Gene other){
         Gene[] result = new Gene[1];
@@ -71,15 +73,15 @@ public class Gene {
 
     /**
      * Mutates the gene randomly with either +1 or -1
+     * small steps are chosen as to minimize the changes in the fitness
      */
     public void mutate(){
     	for(int i =0; i<mChromosome.length; i++){
     		int temp = ran.nextInt(3)-1;
     		mChromosome[i]+=temp;
     		if(mChromosome[i] <1){
+    			// The chromosome can't contain values below 1
     			mChromosome[i] = 1;
-    		} else if(mChromosome[i] >50){
-    			mChromosome[i] = 50;
     		}
     	}
     }
